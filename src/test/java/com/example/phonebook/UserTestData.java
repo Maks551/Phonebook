@@ -18,7 +18,7 @@ public class UserTestData {
     public static final List<User> USERS = Arrays.asList(USER, USER_2, USER_3);
 
     public static void assertMatch(User actual, User expected) {
-        assertThat(actual).isEqualToIgnoringGivenFields(expected, "password", "phonebook");
+        assertThat(actual).isEqualToIgnoringGivenFields(expected, "password", "phonebooks");
     }
 
     public static void assertMatch(Iterable<User> actual, User... expected) {
@@ -26,6 +26,10 @@ public class UserTestData {
     }
 
     public static void assertMatch(Iterable<User> actual, Iterable<User> expected) {
-        assertThat(actual).usingElementComparatorIgnoringFields("password", "phonebook").isEqualTo(expected);
+        assertThat(actual).usingElementComparatorIgnoringFields("password", "phonebooks").isEqualTo(expected);
+    }
+
+    public static User getCreated() {
+        return new User(null, "CreatedUser", "CreatedPassword", "CreatedName");
     }
 }

@@ -37,4 +37,20 @@ public class PhonebookTestData {
     public static void assertMatch(Iterable<Phonebook> actual, Iterable<Phonebook> expected) {
         assertThat(actual).usingElementComparatorIgnoringFields("user").isEqualTo(expected);
     }
+
+    public static Phonebook getCreated() {
+        return new Phonebook(null, "CreatedLastName", "CreatedFirstName",
+                "CreatedSurename", "+380982344329",
+                null, "new Address", "created@gmail.com");
+    }
+
+    public static Phonebook getUpdated() {
+        Phonebook updated = new Phonebook(PHONEBOOK);
+        updated.setLastName("NewLastName");
+        updated.setFirstName("NewFirstName");
+        updated.setSurname("NewSurname");
+        updated.setAddress("newAddress");
+        updated.setEmail("newEmail@gmail.com");
+        return updated;
+    }
 }
