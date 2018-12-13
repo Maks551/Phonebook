@@ -30,38 +30,32 @@ class UserServiceTest extends AbstractServiceTest{
 
     @Test
     void getNotFound() {
-        System.out.println(service.get(USER_ID));
         assertThrows(NotFoundException.class, () -> service.get(0));
     }
 
     @Test
     void getByLogin() {
-        System.out.println(service.get(USER_ID));
         assertMatch(service.getByLogin(USER_LOGIN), USER);
     }
 
     @Test
     void getByLoginNotFound() {
-        System.out.println(service.get(USER_ID));
         assertThrows(NotFoundException.class, () -> service.getByLogin(""));
     }
 
     @Test
     void delete() {
-        System.out.println(service.get(USER_ID));
         service.delete(USER_ID);
         assertMatch(service.getAll(), USER_2, USER_3);
     }
 
     @Test
     void deletedNotFound() throws Exception {
-        System.out.println(service.get(USER_ID));
         assertThrows(NotFoundException.class, () -> service.delete(0));
     }
 
     @Test
     void update() {
-        System.out.println(service.get(USER_ID));
         User updated = new User(USER);
         updated.setName("UpdatedName");
         updated.setLogin("UpdatedLogin");
@@ -71,7 +65,6 @@ class UserServiceTest extends AbstractServiceTest{
 
     @Test
     void create() throws Exception {
-        System.out.println(service.get(USER_ID));
         User newUser = new User(null, "newLogin", "passwordNew", "newUser");
         User created = service.create(new User(newUser));
         newUser.setId(created.getId());
@@ -80,7 +73,6 @@ class UserServiceTest extends AbstractServiceTest{
 
     @Test
     void duplicateLoginCreate() throws Exception {
-        System.out.println(service.get(USER_ID));
         assertThrows(DataAccessException.class, () ->
                 service.create(new User(null, USER_LOGIN, "newPass", "newName")));
     }
