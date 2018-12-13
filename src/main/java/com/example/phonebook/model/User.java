@@ -29,7 +29,7 @@ public class User extends AbstractBaseEntity {
     private String name;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
-    private List<Phonebook> phonebook;
+    private List<Phonebook> phonebooks;
 
     public User(User user) {
         this(user.getId(), user.login, user.password, user.name);
