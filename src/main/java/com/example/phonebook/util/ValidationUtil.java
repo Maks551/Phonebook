@@ -5,7 +5,7 @@ import com.example.phonebook.util.exception.IllegalRequestDataException;
 import com.example.phonebook.util.exception.NotFoundException;
 
 public class ValidationUtil {
-    public static <T> T checkNotFoundWithId(T object, int id){
+    public static <T> T checkNotFoundWithId(T object, int id) {
         return checkNotFound(object, "id=" + id);
     }
 

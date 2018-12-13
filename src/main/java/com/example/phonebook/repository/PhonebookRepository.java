@@ -11,8 +11,5 @@ public interface PhonebookRepository {
 
     Phonebook get(int id, int userId);
 
-    // ORDERED dateTime desc
     List<Phonebook> getAll(int userId);
-
-//    List<PhoneBook> getBetweenName(String name, int userId);
 }
