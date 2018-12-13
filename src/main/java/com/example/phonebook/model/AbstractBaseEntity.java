@@ -1,5 +1,6 @@
 package com.example.phonebook.model;
 
+import com.example.phonebook.HasId;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -13,7 +14,7 @@ import javax.persistence.*;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @MappedSuperclass
 @Access(AccessType.FIELD)
-public abstract class AbstractBaseEntity {
+public abstract class AbstractBaseEntity implements HasId {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -41,9 +42,5 @@ public abstract class AbstractBaseEntity {
     @Override
     public int hashCode() {
         return id != null ? id : 0;
-    }
-
-    public boolean isNew() {
-        return getId() == null;
     }
 }
