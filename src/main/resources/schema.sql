@@ -1,16 +1,25 @@
+DROP TABLE IF EXISTS user_roles;
 DROP TABLE IF EXISTS phone_book;
 DROP TABLE IF EXISTS users;
 
 CREATE TABLE users (
-  id INT NOT NULL AUTO_INCREMENT PRIMARY KEY ,
+  id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
   login VARCHAR(100) NOT NULL,
   password VARCHAR(100) NOT NULL,
   name VARCHAR(150) NOT NULL
 );
-CREATE UNIQUE INDEX users_login_idx ON users (login);
+CREATE UNIQUE INDEX users_unique_login_idx ON users (login);
+
+CREATE TABLE user_roles
+(
+  user_id INT NOT NULL,
+  role VARCHAR(50) NOT NULL,
+  CONSTRAINT user_roles_idx UNIQUE (user_id, role),
+  FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE CASCADE
+);
 
 CREATE TABLE phone_book (
-  id INT NOT NULL AUTO_INCREMENT PRIMARY KEY ,
+  id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
   user_id INT NOT NULL,
   last_name VARCHAR(100) NOT NULL,
   first_name VARCHAR(100) NOT NULL,

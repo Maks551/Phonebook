@@ -1,5 +1,6 @@
 package com.example.phonebook.service;
 
+import com.example.phonebook.model.Role;
 import com.example.phonebook.model.User;
 import com.example.phonebook.util.exception.NotFoundException;
 import org.junit.jupiter.api.BeforeEach;
@@ -65,7 +66,7 @@ class UserServiceTest extends AbstractServiceTest{
 
     @Test
     void create() throws Exception {
-        User newUser = new User(null, "newLogin", "passwordNew", "newUser");
+        User newUser = getCreated();
         User created = service.create(new User(newUser));
         newUser.setId(created.getId());
         assertMatch(service.getAll(), USER, USER_2, USER_3, newUser);
@@ -74,6 +75,6 @@ class UserServiceTest extends AbstractServiceTest{
     @Test
     void duplicateLoginCreate() throws Exception {
         assertThrows(DataAccessException.class, () ->
-                service.create(new User(null, USER_LOGIN, "newPass", "newName")));
+                service.create(new User(null, USER_LOGIN, "newPass", "newName", Role.ROLE_USER)));
     }
 }

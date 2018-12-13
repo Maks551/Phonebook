@@ -7,6 +7,11 @@ INSERT INTO users (login, password, name) VALUES
   ('login2', 'password2', 'name2'),
   ('login3', 'password3', 'name3');
 
+INSERT INTO user_roles (role, user_id) VALUES
+  ('ROLE_USER', 1),
+  ('ROLE_USER', 2),
+  ('ROLE_USER', 3);
+
 INSERT INTO phone_book
 (user_id, last_name, first_name, surname, mobile_phone_number, home_phone_number, address, email) VALUES
   (1, 'LastName1', 'FirstName1', 'Surname1', '+380339833231', null , 'Kiev', 'email1@gmail.com'),
