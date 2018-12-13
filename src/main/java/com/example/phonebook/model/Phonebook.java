@@ -10,6 +10,7 @@ import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 
 @Setter
 @Getter
@@ -18,15 +19,15 @@ import javax.validation.constraints.NotBlank;
 @Table(name = "phone_book")
 public class Phonebook extends AbstractBaseEntity {
     @NotBlank(message = "Last Name is mandatory")
-    @Min(4)
+    @Size(min = 4)
     private String lastName;
 
     @NotBlank(message = "First Name is mandatory")
-    @Min(4)
+    @Size(min = 4)
     private String firstName;
 
     @NotBlank(message = "Surname is mandatory")
-    @Min(4)
+    @Size(min = 4)
     private String surname;
 
     @NotBlank(message = "Mobile Phone Number is mandatory")
@@ -43,9 +44,26 @@ public class Phonebook extends AbstractBaseEntity {
     @OnDelete(action = OnDeleteAction.CASCADE)
     private User user;
 
+    public Phonebook(Phonebook phonebook) {
+        this(phonebook.id, phonebook.lastName, phonebook.firstName, phonebook.surname,
+                phonebook.mobilePhoneNumber, phonebook.homePhoneNumber, phonebook.address, phonebook.email);
+    }
+
+    public Phonebook(Integer id, String lastName, String firstName, String surname, String mobilePhoneNumber,
+                     String homePhoneNumber, String address, String email) {
+        super(id);
+        this.lastName = lastName;
+        this.firstName = firstName;
+        this.surname = surname;
+        this.mobilePhoneNumber = mobilePhoneNumber;
+        this.homePhoneNumber = homePhoneNumber;
+        this.address = address;
+        this.email = email;
+    }
+
     @Override
     public String toString() {
-        return "PhoneBook{" +
+        return "Phonebook{" +
                 "id=" + id +
                 ", lastName='" + lastName + '\'' +
                 ", firstName='" + firstName + '\'' +

@@ -4,6 +4,7 @@ import com.example.phonebook.model.Phonebook;
 import com.example.phonebook.repository.PhonebookRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -19,6 +20,7 @@ public class PhonebookRepositoryImpl implements PhonebookRepository {
     }
 
     @Override
+    @Transactional
     public Phonebook save(Phonebook phoneBook, int userId) {
         if (!phoneBook.isNew() && get(phoneBook.getId(), userId) == null) {
             return null;

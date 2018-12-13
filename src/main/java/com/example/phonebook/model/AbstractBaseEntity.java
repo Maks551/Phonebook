@@ -16,7 +16,7 @@ import javax.persistence.*;
 public abstract class AbstractBaseEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     protected Integer id;
 
     AbstractBaseEntity(Integer id) {

@@ -5,6 +5,8 @@ import com.example.phonebook.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 public class UserRepositoryImpl implements UserRepository {
     private final CrudUserRepository repository;
@@ -27,5 +29,15 @@ public class UserRepositoryImpl implements UserRepository {
     @Override
     public User get(int id) {
         return repository.findById(id).orElse(null);
+    }
+
+    @Override
+    public User getByLogin(String login) {
+        return repository.getByLogin(login);
+    }
+
+    @Override
+    public List<User> getAll() {
+        return repository.findAll();
     }
 }
