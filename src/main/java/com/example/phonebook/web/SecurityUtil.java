@@ -1,13 +1,29 @@
 package com.example.phonebook.web;
 
-public class SecurityUtil {
-    private static int id = 1;
+import com.example.phonebook.AuthorizedUser;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 
-    public static int authUserId() {
-        return id;
+import static java.util.Objects.requireNonNull;
+
+public class SecurityUtil {
+    public static AuthorizedUser safeGet() {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        if (auth == null) {
+            return null;
+        }
+        System.out.println("auth.getPrincipal() = " + auth.getPrincipal());
+        Object principal = auth.getPrincipal();
+        return (principal instanceof AuthorizedUser) ? (AuthorizedUser) principal : null;
     }
 
-    public static void setAuthUserId(int id) {
-        SecurityUtil.id = id;
+    public static AuthorizedUser get() {
+        AuthorizedUser user = safeGet();
+        requireNonNull(user, "No authorized user found");
+        return user;
+    }
+
+    public static int authUserId() {
+        return get().getUserTo().getId();
     }
 }

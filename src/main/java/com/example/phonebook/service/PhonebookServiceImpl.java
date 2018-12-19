@@ -1,9 +1,11 @@
 package com.example.phonebook.service;
 
-import com.example.phonebook.model.Phonebook;
+import com.example.phonebook.model.PhonebookEntry;
 import com.example.phonebook.repository.PhonebookRepository;
 import com.example.phonebook.util.exception.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
@@ -21,28 +23,32 @@ public class PhonebookServiceImpl implements PhonebookService {
     }
 
     @Override
-    public Phonebook get(int id, int userId) {
+    public PhonebookEntry get(int id, int userId) {
         return checkNotFoundWithId(phonebookRepo.get(id, userId), id);
     }
 
+    @CacheEvict(value = "phonebooks", key = "#userId")
     @Override
     public void delete(int id, int userId) throws NotFoundException {
         checkNotFoundWithId(phonebookRepo.delete(id, userId), id);
     }
 
+    @CacheEvict(value = "phonebooks", key = "#userId")
     @Override
-    public Phonebook create(Phonebook phonebook, int userId) {
-        Assert.notNull(phonebook, "phonebook must not be null");
-        return phonebookRepo.save(phonebook, userId);
+    public PhonebookEntry create(PhonebookEntry pbEntry, int userId) {
+        Assert.notNull(pbEntry, "phonebookEntry must not be null");
+        return phonebookRepo.save(pbEntry, userId);
+    }
+
+    @CacheEvict(value = "phonebooks", key = "#userId")
+    @Override
+    public void update(PhonebookEntry pbEntry, int userId) throws NotFoundException {
+        checkNotFoundWithId(phonebookRepo.save(pbEntry, userId), pbEntry.getId());
     }
 
     @Override
-    public void update(Phonebook phonebook, int userId) throws NotFoundException {
-        checkNotFoundWithId(phonebookRepo.save(phonebook, userId), phonebook.getId());
-    }
-
-    @Override
-    public List<Phonebook> getAll(int userId) {
+    @Cacheable("phonebooks")
+    public List<PhonebookEntry> getAll(int userId) {
         return phonebookRepo.getAll(userId);
     }
 }
