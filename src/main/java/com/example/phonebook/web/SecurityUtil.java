@@ -12,7 +12,6 @@ public class SecurityUtil {
         if (auth == null) {
             return null;
         }
-        System.out.println("auth.getPrincipal() = " + auth.getPrincipal());
         Object principal = auth.getPrincipal();
         return (principal instanceof AuthorizedUser) ? (AuthorizedUser) principal : null;
     }
