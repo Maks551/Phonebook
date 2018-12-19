@@ -1,7 +1,10 @@
 package com.example.phonebook;
 
+import com.example.phonebook.model.User;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.ResultMatcher;
+import org.springframework.test.web.servlet.request.RequestPostProcessor;
+import org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors;
 
 import java.io.UnsupportedEncodingException;
 
@@ -22,5 +25,9 @@ public class TestUtil {
     public static <T> T readFromJson(ResultActions action, Class<T> clazz) throws UnsupportedEncodingException {
         System.out.println(getContent(action));
         return readValue(getContent(action), clazz);
+    }
+
+    public static RequestPostProcessor userHttpBasic(User user) {
+        return SecurityMockMvcRequestPostProcessors.httpBasic(user.getLogin(), user.getPassword());
     }
 }
