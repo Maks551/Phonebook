@@ -23,8 +23,13 @@ public class TestUtil {
     }
 
     public static <T> T readFromJson(ResultActions action, Class<T> clazz) throws UnsupportedEncodingException {
-        System.out.println(getContent(action));
-        return readValue(getContent(action), clazz);
+        String content = getContent(action);
+        if (content != null && content.indexOf("]") > 0) {
+            int index = content.indexOf("]") + 1;
+            String result = content.substring(0, index) + "}";
+            return readValue(result, clazz);
+        }
+        return readValue(content, clazz);
     }
 
     public static RequestPostProcessor userHttpBasic(User user) {
