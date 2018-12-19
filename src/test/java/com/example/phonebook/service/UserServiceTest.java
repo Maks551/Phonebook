@@ -16,9 +16,6 @@ class UserServiceTest extends AbstractServiceTest{
     @Autowired
     private UserService service;
 
-    @Autowired
-    private CacheManager cacheManager;
-
     @BeforeEach
     void setUp() throws Exception {
         cacheManager.getCache("users").clear();
@@ -27,6 +24,11 @@ class UserServiceTest extends AbstractServiceTest{
     @Test
     void get() {
         assertMatch(service.get(USER_ID), USER);
+    }
+
+    @Test
+    void getAll() {
+        assertMatch(service.getAll(), USERS);
     }
 
     @Test
@@ -47,7 +49,7 @@ class UserServiceTest extends AbstractServiceTest{
     @Test
     void delete() {
         service.delete(USER_ID);
-        assertMatch(service.getAll(), USER_2, USER_3);
+        assertMatch(service.getAll(), USER_2, USER_3, ADMIN);
     }
 
     @Test
@@ -58,8 +60,8 @@ class UserServiceTest extends AbstractServiceTest{
     @Test
     void update() {
         User updated = new User(USER);
-        updated.setName("UpdatedName");
-        updated.setLogin("UpdatedLogin");
+        updated.setName("updatedName");
+        updated.setLogin("updated");
         service.update(new User(updated));
         assertMatch(service.get(USER_ID), updated);
     }
@@ -69,12 +71,12 @@ class UserServiceTest extends AbstractServiceTest{
         User newUser = getCreated();
         User created = service.create(new User(newUser));
         newUser.setId(created.getId());
-        assertMatch(service.getAll(), USER, USER_2, USER_3, newUser);
+        assertMatch(service.getAll(), USER, USER_2, USER_3, ADMIN, newUser);
     }
 
     @Test
     void duplicateLoginCreate() throws Exception {
         assertThrows(DataAccessException.class, () ->
-                service.create(new User(null, USER_LOGIN, "newPass", "newName", Role.ROLE_USER)));
+                service.create(new User(null, USER_LOGIN, "newPass", "newName", Role.USER)));
     }
 }
