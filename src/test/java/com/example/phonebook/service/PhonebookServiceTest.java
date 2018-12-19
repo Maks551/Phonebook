@@ -2,12 +2,17 @@ package com.example.phonebook.service;
 
 import com.example.phonebook.model.PhonebookEntry;
 import com.example.phonebook.util.exception.NotFoundException;
+import org.junit.jupiter.api.Assumptions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import javax.validation.ConstraintViolationException;
+import java.time.Month;
+
 import static com.example.phonebook.PhonebookTestData.*;
 import static com.example.phonebook.UserTestData.USER_ID;
+import static java.time.LocalDateTime.of;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class PhonebookServiceTest extends AbstractServiceTest{
@@ -64,4 +69,12 @@ class PhonebookServiceTest extends AbstractServiceTest{
     void getAll() {
         assertMatch(service.getAll(USER_ID), PHONEBOOK_LIST);
     }
+
+//    @Test
+//    void testValidation() throws Exception {
+//        validateRootCause(() -> service.create(new PhonebookEntry(null, of(2015, Month.JUNE, 1, 18, 0), "  ", 300), USER_ID), ConstraintViolationException.class);
+//        validateRootCause(() -> service.create(new Meal(null, null, "Description", 300), USER_ID), ConstraintViolationException.class);
+//        validateRootCause(() -> service.create(new Meal(null, of(2015, Month.JUNE, 1, 18, 0), "Description", 9), USER_ID), ConstraintViolationException.class);
+//        validateRootCause(() -> service.create(new Meal(null, of(2015, Month.JUNE, 1, 18, 0), "Description", 5001), USER_ID), ConstraintViolationException.class);
+//    }
 }

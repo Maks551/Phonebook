@@ -1,5 +1,6 @@
 package com.example.phonebook.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -28,6 +29,7 @@ public class User extends AbstractBaseEntity implements UserDetails {
 
     @NotBlank(message = "Password is mandatory")
     @Size(min = 5)
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String password;
 
     @NotBlank(message = "Name is mandatory")
