@@ -17,7 +17,7 @@ import javax.validation.constraints.Size;
 @NoArgsConstructor
 @Entity
 @Table(name = "phone_book")
-public class Phonebook extends AbstractBaseEntity {
+public class PhonebookEntry extends AbstractBaseEntity {
     @NotBlank(message = "Last Name is mandatory")
     @Size(min = 4)
     private String lastName;
@@ -45,13 +45,14 @@ public class Phonebook extends AbstractBaseEntity {
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private User user;
 
-    public Phonebook(Phonebook phonebook) {
-        this(phonebook.id, phonebook.lastName, phonebook.firstName, phonebook.surname,
-                phonebook.mobilePhoneNumber, phonebook.homePhoneNumber, phonebook.address, phonebook.email);
+    public PhonebookEntry(PhonebookEntry pbEntry) {
+        this(pbEntry.id, pbEntry.lastName, pbEntry.firstName,
+                pbEntry.surname, pbEntry.mobilePhoneNumber,
+                pbEntry.homePhoneNumber, pbEntry.address, pbEntry.email);
     }
 
-    public Phonebook(Integer id, String lastName, String firstName, String surname, String mobilePhoneNumber,
-                     String homePhoneNumber, String address, String email) {
+    public PhonebookEntry(Integer id, String lastName, String firstName, String surname, String mobilePhoneNumber,
+                          String homePhoneNumber, String address, String email) {
         super(id);
         this.lastName = lastName;
         this.firstName = firstName;
@@ -64,7 +65,7 @@ public class Phonebook extends AbstractBaseEntity {
 
     @Override
     public String toString() {
-        return "Phonebook{" +
+        return "PhonebookEntry{" +
                 "id=" + id +
                 ", lastName='" + lastName + '\'' +
                 ", firstName='" + firstName + '\'' +

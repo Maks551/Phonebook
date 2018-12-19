@@ -3,6 +3,11 @@ package com.example.phonebook.model;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.BatchSize;
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.util.CollectionUtils;
 
 import javax.persistence.*;
@@ -15,7 +20,7 @@ import java.util.*;
 @NoArgsConstructor
 @Entity
 @Table(name = "users", uniqueConstraints = {@UniqueConstraint(columnNames = "login", name = "users_unique_login_idx")})
-public class User extends AbstractBaseEntity {
+public class User extends AbstractBaseEntity implements UserDetails {
     @NotBlank(message = "Login is mandatory")
     @Size(min = 3)
     @Column(name = "login", nullable = false)
@@ -29,28 +34,34 @@ public class User extends AbstractBaseEntity {
     @Size(min = 5)
     private String name;
 
+    @Column(name = "enabled", nullable = false, columnDefinition = "bool default true")
+    private boolean enabled = true;
+
+    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     @Enumerated(EnumType.STRING)
     @CollectionTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"))
     @Column(name = "role")
     @ElementCollection(fetch = FetchType.EAGER)
+    @BatchSize(size = 200)
     private Set<Role> roles;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
-    private List<Phonebook> phonebooks;
+    private List<PhonebookEntry> phonebook;
 
     public User(User user) {
-        this(user.getId(), user.login, user.password, user.name, user.getRoles());
+        this(user.getId(), user.getLogin(), user.getPassword(), user.getName(), user.isEnabled(), user.getRoles());
     }
 
     public User(Integer id, String login, String password, String name, Role role, Role... roles) {
-        this(id, login, password, name, EnumSet.of(role, roles));
+        this(id, login, password, name, true, EnumSet.of(role, roles));
     }
 
-    public User(Integer id, String login, String password, String name, Collection<Role> roles) {
+    public User(Integer id, String login, String password, String name, boolean enabled, Collection<Role> roles) {
         super(id);
         this.login = login;
         this.password = password;
         this.name = name;
+        this.enabled = enabled;
         setRoles(roles);
     }
 
@@ -64,6 +75,38 @@ public class User extends AbstractBaseEntity {
                 "id=" + id +
                 ", login=" + login +
                 ", name=" + name +
+                ", enabled=" + enabled +
+                ", roles=" + roles +
                 '}';
+    }
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return getRoles();
+    }
+
+    @Override
+    public String getUsername() {
+        return login;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return enabled;
     }
 }
