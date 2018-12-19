@@ -7,6 +7,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.hibernate5.Hibernate5Module;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import org.springframework.context.annotation.Bean;
+import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 
 /**
  * <p>
@@ -17,6 +19,13 @@ import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
  * @link https://github.com/FasterXML/jackson-docs/wiki/JacksonHowToCustomSerializers
  */
 public class JacksonAutoConfiguration extends ObjectMapper {
+
+//    @Bean
+//    public MappingJackson2HttpMessageConverter mappingJackson2HttpMessageConverter() {
+//        MappingJackson2HttpMessageConverter jsonConverter = new MappingJackson2HttpMessageConverter();
+//        jsonConverter.setObjectMapper(getMapper());
+//        return jsonConverter;
+//    }
 
     private static final ObjectMapper MAPPER = new JacksonAutoConfiguration();
 
@@ -31,6 +40,7 @@ public class JacksonAutoConfiguration extends ObjectMapper {
         setSerializationInclusion(JsonInclude.Include.NON_NULL);
     }
 
+    @Bean
     public static ObjectMapper getMapper() {
         return MAPPER;
     }
