@@ -3,14 +3,17 @@ ALTER TABLE users AUTO_INCREMENT = 1;
 ALTER TABLE phone_book AUTO_INCREMENT = 1;
 
 INSERT INTO users (login, password, name) VALUES
-  ('login1', 'password1', 'name1'),
-  ('login2', 'password2', 'name2'),
-  ('login3', 'password3', 'name3');
+  ('login1', '{noop}password1', 'name1'),
+  ('login2', '{noop}password2', 'name2'),
+  ('login3', '{noop}password3', 'name3'),
+  ('admin', '{noop}admin', 'admin');
 
 INSERT INTO user_roles (role, user_id) VALUES
-  ('ROLE_USER', 1),
-  ('ROLE_USER', 2),
-  ('ROLE_USER', 3);
+  ('USER', 1),
+  ('USER', 2),
+  ('USER', 3),
+  ('USER', 4),
+  ('ADMIN', 4);
 
 INSERT INTO phone_book
 (user_id, last_name, first_name, surname, mobile_phone_number, home_phone_number, address, email) VALUES

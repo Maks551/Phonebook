@@ -17,4 +17,5 @@
         </cache-template>
 
         <cache alias="users" uses-template="singleNonExpiryCache"/>
+        <cache alias="phonebooks" uses-template="singleNonExpiryCache"/>
 </config>

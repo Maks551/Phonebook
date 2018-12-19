@@ -6,6 +6,7 @@ CREATE TABLE users (
   id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
   login VARCHAR(100) NOT NULL,
   password VARCHAR(100) NOT NULL,
+  enabled BOOLEAN DEFAULT TRUE NOT NULL,
   name VARCHAR(150) NOT NULL
 );
 CREATE UNIQUE INDEX users_unique_login_idx ON users (login);
@@ -30,4 +31,4 @@ CREATE TABLE phone_book (
   email VARCHAR(100),
   FOREIGN KEY phone_book_fk (user_id) REFERENCES users (id) ON DELETE CASCADE
 );
-CREATE UNIQUE INDEX phone_books_email_idx ON phone_book (email);
+CREATE UNIQUE INDEX phone_books_mobile_phone_number_idx ON phone_book (mobile_phone_number);
