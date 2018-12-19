@@ -1,15 +1,15 @@
 package com.example.phonebook.repository;
 
-import com.example.phonebook.model.Phonebook;
+import com.example.phonebook.model.PhonebookEntry;
 
 import java.util.List;
 
 public interface PhonebookRepository {
-    Phonebook save(Phonebook phoneBook, int userId);
+    PhonebookEntry save(PhonebookEntry pbEntry, int userId);
 
     boolean delete(int id, int userId);
 
-    Phonebook get(int id, int userId);
+    PhonebookEntry get(int id, int userId);
 
-    List<Phonebook> getAll(int userId);
+    List<PhonebookEntry> getAll(int userId);
 }
