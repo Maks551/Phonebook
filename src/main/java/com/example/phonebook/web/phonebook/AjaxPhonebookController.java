@@ -30,7 +30,6 @@ public class AjaxPhonebookController extends AbstractPhonebookController{
     @DeleteMapping(value = "/{id}")
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
     public void delete(@PathVariable("id") int id) {
-        System.out.println("delete phonebook entry");
         super.delete(id);
     }
 
@@ -39,7 +38,6 @@ public class AjaxPhonebookController extends AbstractPhonebookController{
     public ResponseEntity<String> createOrUpdate(PhonebookEntry pbEntry, BindingResult result) {
         if (result.hasErrors()){
             StringJoiner joiner = new StringJoiner("<br>");
-            System.out.println(result.getGlobalErrors());
             result.getFieldErrors().forEach(
                     fe -> {
                         String msg = fe.getDefaultMessage();

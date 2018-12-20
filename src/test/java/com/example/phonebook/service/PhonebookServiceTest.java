@@ -36,7 +36,6 @@ class PhonebookServiceTest extends AbstractServiceTest{
 
     @Test
     void delete() {
-        service.getAll(USER_ID).forEach(System.out::println);
         service.delete(PHONEBOOK_ID, USER_ID);
         assertMatch(service.getAll(USER_ID), PHONEBOOK_2, PHONEBOOK_3, PHONEBOOK_4);
     }

@@ -31,8 +31,7 @@
 
 <div class="container">
     <div class="lead">
-        <h2>Welcome!</h2>
-        This is a Phonebook Spring Boot Web application.
+        <spring:message code="app.welcome"/>
     </div>
 </div>
 

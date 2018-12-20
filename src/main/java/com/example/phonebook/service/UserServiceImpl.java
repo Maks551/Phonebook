@@ -84,10 +84,8 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
     @Override
     public AuthorizedUser loadUserByUsername(String login) throws UsernameNotFoundException {
-//        User user = repository.getByLogin(login.toLowerCase());
-        System.out.println("loadUserByUsername");
         User user = repository.getByLogin(login.trim().toLowerCase());
-        System.out.println(user);
+//        System.out.println(user);
         if (user == null) {
             throw new UsernameNotFoundException("User " + login + " is not found");
         }
