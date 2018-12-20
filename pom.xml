@@ -32,14 +32,11 @@
     </properties>
 
     <dependencies>
-        <!-- https://mvnrepository.com/artifact/nz.co.senanque/madura-springsecurity-login -->
-        <dependency>
-            <groupId>nz.co.senanque</groupId>
-            <artifactId>madura-springsecurity-login</artifactId>
-            <version>3.4.0</version>
-        </dependency>
-
         <!--security-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-security</artifactId>
+        </dependency>
         <dependency>
             <groupId>org.springframework.security</groupId>
             <artifactId>spring-security-web</artifactId>
@@ -54,12 +51,6 @@
             <groupId>org.springframework.security</groupId>
             <artifactId>spring-security-taglibs</artifactId>
             <version>${spring.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.security</groupId>
-            <artifactId>spring-security-test</artifactId>
-            <version>${spring.version}</version>
-            <scope>test</scope>
         </dependency>
 
         <!-- Logging -->
@@ -117,10 +108,11 @@
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
-
         <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-security</artifactId>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-test</artifactId>
+            <version>${spring.version}</version>
+            <scope>test</scope>
         </dependency>
 
         <!-- Webjars (static dependencies distributed as JAR files) -->
@@ -226,7 +218,7 @@
     </dependencies>
 
     <build>
-        <finalName>${artifactId}</finalName>
+        <finalName>${project.artifactId}</finalName>
         <defaultGoal>package</defaultGoal>
         <plugins>
             <plugin>

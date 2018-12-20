@@ -14,7 +14,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 @Order(SecurityProperties.BASIC_AUTH_ORDER - 10)
 @SpringBootApplication
 @EnableWebSecurity
-@ImportResource("classpath:/spring-security.xml")
+@ImportResource("classpath:spring-security.xml")
 public class Application extends SpringBootServletInitializer{
 
     @Override

@@ -1,6 +1,7 @@
 package com.example.phonebook;
 
 import com.example.phonebook.model.User;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.ResultMatcher;
 import org.springframework.test.web.servlet.request.RequestPostProcessor;
@@ -24,7 +25,7 @@ public class TestUtil {
 
     public static <T> T readFromJson(ResultActions action, Class<T> clazz) throws UnsupportedEncodingException {
         String content = getContent(action);
-        if (content != null && content.indexOf("]") > 0) {
+        if (content.indexOf("]") > 0) {
             int index = content.indexOf("]") + 1;
             String result = content.substring(0, index) + "}";
             return readValue(result, clazz);
