@@ -31,4 +31,4 @@ CREATE TABLE phone_book (
   email VARCHAR(100),
   FOREIGN KEY phone_book_fk (user_id) REFERENCES users (id) ON DELETE CASCADE
 );
-CREATE UNIQUE INDEX phone_books_mobile_phone_number_idx ON phone_book (mobile_phone_number);
+CREATE UNIQUE INDEX phone_books_mobile_phone_number_idx ON phone_book (mobile_phone_number, user_id);

@@ -6,13 +6,15 @@ import com.example.phonebook.util.exception.NotFoundException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.CacheManager;
 import org.springframework.dao.DataAccessException;
+
+import javax.validation.ConstraintViolationException;
+import java.util.Collections;
 
 import static com.example.phonebook.UserTestData.*;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-class UserServiceTest extends AbstractServiceTest{
+class UserServiceTest extends AbstractServiceTest {
     @Autowired
     private UserService service;
 
@@ -78,5 +80,16 @@ class UserServiceTest extends AbstractServiceTest{
     void duplicateLoginCreate() throws Exception {
         assertThrows(DataAccessException.class, () ->
                 service.create(new User(null, USER_LOGIN, "newPass", "newName", Role.USER)));
+    }
+
+    @Test
+    void testValidation() throws Exception {
+        validateRootCause(() -> service.create(new User(null, " ", "password", "name", Role.USER)), ConstraintViolationException.class);
+        validateRootCause(() -> service.create(new User(null, "a", "password", "name", Role.USER)), ConstraintViolationException.class);
+        validateRootCause(() -> service.create(new User(null, "login", " ", "name", Role.USER)), ConstraintViolationException.class);
+        validateRootCause(() -> service.create(new User(null, "login", "a", "name", Role.USER)), ConstraintViolationException.class);
+        validateRootCause(() -> service.create(new User(null, "login", "password", " ", Role.USER)), ConstraintViolationException.class);
+        validateRootCause(() -> service.create(new User(null, "login", "password", "a", Role.USER)), ConstraintViolationException.class);
+        validateRootCause(() -> service.create(new User(null, "login", "password", "name", true, Collections.emptySet())), ConstraintViolationException.class);
     }
 }

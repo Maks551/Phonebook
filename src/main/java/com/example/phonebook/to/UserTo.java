@@ -4,8 +4,11 @@ import com.example.phonebook.HasId;
 import org.hibernate.validator.constraints.SafeHtml;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
+
+import static com.example.phonebook.util.ValidationUtil.LOGIN_PATTERN;
 
 public class UserTo implements Serializable, HasId {
 
@@ -17,6 +20,7 @@ public class UserTo implements Serializable, HasId {
     private String name;
 
     @NotBlank
+    @Pattern(regexp = LOGIN_PATTERN, message = "Invalid login!")
     @Size(min = 3)
     @SafeHtml // https://stackoverflow.com/questions/17480809
     private String login;

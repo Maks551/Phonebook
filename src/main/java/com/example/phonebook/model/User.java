@@ -13,8 +13,11 @@ import org.springframework.util.CollectionUtils;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import java.util.*;
+
+import static com.example.phonebook.util.ValidationUtil.LOGIN_PATTERN;
 
 @Setter
 @Getter
@@ -23,7 +26,8 @@ import java.util.*;
 @Table(name = "users", uniqueConstraints = {@UniqueConstraint(columnNames = "login", name = "users_unique_login_idx")})
 public class User extends AbstractBaseEntity implements UserDetails {
     @NotBlank(message = "Login is mandatory")
-    @Size(min = 3)
+    @Pattern(regexp = LOGIN_PATTERN, message = "Invalid login!")
+    @Size(min = 3, message = "Login is mandatory")
     @Column(name = "login", nullable = false)
     private String login;
 

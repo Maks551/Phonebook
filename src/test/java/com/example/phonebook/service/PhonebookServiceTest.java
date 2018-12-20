@@ -51,7 +51,7 @@ class PhonebookServiceTest extends AbstractServiceTest{
         updated.setLastName("NewLastName");
         updated.setFirstName("NewFirstName");
         updated.setSurname("NewSurname");
-        updated.setHomePhoneNumber("+380655888412");
+        updated.setHomePhoneNumber("035 99 109 11");
         service.update(new PhonebookEntry(updated), USER_ID);
         assertMatch(service.get(PHONEBOOK_ID ,USER_ID), updated);
     }
@@ -69,11 +69,17 @@ class PhonebookServiceTest extends AbstractServiceTest{
         assertMatch(service.getAll(USER_ID), PHONEBOOK_LIST);
     }
 
-//    @Test
-//    void testValidation() throws Exception {
-//        validateRootCause(() -> service.create(new PhonebookEntry(null, of(2015, Month.JUNE, 1, 18, 0), "  ", 300), USER_ID), ConstraintViolationException.class);
-//        validateRootCause(() -> service.create(new Meal(null, null, "Description", 300), USER_ID), ConstraintViolationException.class);
-//        validateRootCause(() -> service.create(new Meal(null, of(2015, Month.JUNE, 1, 18, 0), "Description", 9), USER_ID), ConstraintViolationException.class);
-//        validateRootCause(() -> service.create(new Meal(null, of(2015, Month.JUNE, 1, 18, 0), "Description", 5001), USER_ID), ConstraintViolationException.class);
-//    }
+    @Test
+    void testValidation() throws Exception {
+        validateRootCause(() -> service.create(new PhonebookEntry(null, null, "FirstName", "Surname", "380339833231", "035 99 109 11", "Kiev", "test@gmail.com"), USER_ID), ConstraintViolationException.class);
+        validateRootCause(() -> service.create(new PhonebookEntry(null, "a", "FirstName", "Surname", "380339833231", "035 99 109 11", "Kiev", "test@gmail.com"), USER_ID), ConstraintViolationException.class);
+        validateRootCause(() -> service.create(new PhonebookEntry(null, "LastName", null, "Surname", "380339833231", "035 99 109 11", "Kiev", "test@gmail.com"), USER_ID), ConstraintViolationException.class);
+        validateRootCause(() -> service.create(new PhonebookEntry(null, "LastName", "a", "Surname", "380339833231", "035 99 109 11", "Kiev", "test@gmail.com"), USER_ID), ConstraintViolationException.class);
+        validateRootCause(() -> service.create(new PhonebookEntry(null, "LastName", "FirstName", null, "380339833231", "035 99 109 11", "Kiev", "test@gmail.com"), USER_ID), ConstraintViolationException.class);
+        validateRootCause(() -> service.create(new PhonebookEntry(null, "LastName", "FirstName", "a", "380339833231", "035 99 109 11", "Kiev", "test@gmail.com"), USER_ID), ConstraintViolationException.class);
+        validateRootCause(() -> service.create(new PhonebookEntry(null, "LastName", "FirstName", "Surname", null, "035 99 109 11", "Kiev", "test@gmail.com"), USER_ID), ConstraintViolationException.class);
+        validateRootCause(() -> service.create(new PhonebookEntry(null, "LastName", "FirstName", "Surname", "12312", "035 99 109 11", "Kiev", "test@gmail.com"), USER_ID), ConstraintViolationException.class);
+        validateRootCause(() -> service.create(new PhonebookEntry(null, "LastName", "FirstName", "Surname", "380339833231", "109 11", "Kiev", "test@gmail.com"), USER_ID), ConstraintViolationException.class);
+        validateRootCause(() -> service.create(new PhonebookEntry(null, "LastName", "FirstName", "Surname", "380339833231", "035 99 109 11", "Kiev", "@gmail.com"), USER_ID), ConstraintViolationException.class);
+    }
 }

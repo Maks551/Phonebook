@@ -7,8 +7,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+import javax.validation.constraints.Pattern;
 import java.util.List;
 import java.util.StringJoiner;
+
+import static com.example.phonebook.util.ValidationUtil.MOBILE_PHONE_NUMBER_PATTERN;
 
 @RestController
 @RequestMapping(value = "/ajax/profile/phonebooks")
@@ -35,7 +39,7 @@ public class AjaxPhonebookController extends AbstractPhonebookController{
 
     @PostMapping
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
-    public ResponseEntity<String> createOrUpdate(PhonebookEntry pbEntry, BindingResult result) {
+    public ResponseEntity<String> createOrUpdate(@Valid PhonebookEntry pbEntry, BindingResult result) {
         if (result.hasErrors()){
             StringJoiner joiner = new StringJoiner("<br>");
             result.getFieldErrors().forEach(
@@ -62,8 +66,10 @@ public class AjaxPhonebookController extends AbstractPhonebookController{
     public List<PhonebookEntry> getFilter(
             @RequestParam(value = "lastNameF", required = false) String lastName,
             @RequestParam(value = "firstNameF", required = false) String firstName,
-            @RequestParam(value = "mobilePhoneNumberF", required = false) String mobilePhoneNumber,
-            @RequestParam(value = "homePhoneNumberF", required = false) String homePhoneNumber) {
+            @RequestParam(value = "mobilePhoneNumberF", required = false)
+            @Pattern(regexp = MOBILE_PHONE_NUMBER_PATTERN) String mobilePhoneNumber,
+            @RequestParam(value = "homePhoneNumberF", required = false)
+            @Pattern(regexp = MOBILE_PHONE_NUMBER_PATTERN) String homePhoneNumber) {
         return super.getFilter(lastName, firstName, mobilePhoneNumber, homePhoneNumber);
     }
 }

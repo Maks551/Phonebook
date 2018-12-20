@@ -10,13 +10,17 @@ import org.hibernate.annotations.OnDeleteAction;
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
+
+import static com.example.phonebook.util.ValidationUtil.HOME_PHONE_NUMBER_PATTERN;
+import static com.example.phonebook.util.ValidationUtil.MOBILE_PHONE_NUMBER_PATTERN;
 
 @Setter
 @Getter
 @NoArgsConstructor
 @Entity
-@Table(name = "phone_book")
+@Table(name = "phone_book", uniqueConstraints = {@UniqueConstraint(columnNames = {"mobile_phone_number", "user_id"}, name = "phone_books_mobile_phone_number_idx")})
 public class PhonebookEntry extends AbstractBaseEntity {
     @NotBlank(message = "Last Name is mandatory")
     @Size(min = 4)
@@ -30,13 +34,16 @@ public class PhonebookEntry extends AbstractBaseEntity {
     @Size(min = 4)
     private String surname;
 
+    @Pattern(regexp = MOBILE_PHONE_NUMBER_PATTERN, message = "Not valid phone number")
     @NotBlank(message = "Mobile Phone Number is mandatory")
+    @Column(name = "mobile_phone_number")
     private String mobilePhoneNumber;
 
+    @Pattern(regexp = HOME_PHONE_NUMBER_PATTERN, message = "Not valid phone number")
     private String homePhoneNumber;
     private String address;
 
-    @Email
+    @Email(message = "Email is invalid")
     private String email;
 
     @ManyToOne(fetch = FetchType.LAZY)
