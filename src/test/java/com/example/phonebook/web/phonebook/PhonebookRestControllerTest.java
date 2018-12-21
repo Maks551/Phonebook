@@ -1,6 +1,6 @@
 package com.example.phonebook.web.phonebook;
 
-import com.example.phonebook.model.PhonebookEntry;
+import com.example.phonebook.model.Phonebook;
 import com.example.phonebook.web.AbstractControllerTest;
 import org.junit.jupiter.api.Test;
 import org.springframework.test.web.servlet.ResultActions;
@@ -39,7 +39,7 @@ class PhonebookRestControllerTest extends AbstractControllerTest {
 
     @Test
     void testUpdate() throws Exception {
-        PhonebookEntry updated = getUpdated();
+        Phonebook updated = getUpdated();
         mockMvc.perform(put(REST_URL)
                 .with(userHttpBasic(USER))
                 .contentType(APPLICATION_JSON)
@@ -50,7 +50,7 @@ class PhonebookRestControllerTest extends AbstractControllerTest {
 
     @Test
     void testCreateWithLocation() throws Exception {
-        PhonebookEntry expected = getCreated();
+        Phonebook expected = getCreated();
         ResultActions action = mockMvc.perform(post(REST_URL)
                 .with(userHttpBasic(USER))
                 .contentType(APPLICATION_JSON)
@@ -58,7 +58,7 @@ class PhonebookRestControllerTest extends AbstractControllerTest {
                 .andExpect(status().isCreated())
                 .andDo(print());
 
-        PhonebookEntry returned = readFromJson(action, PhonebookEntry.class);
+        Phonebook returned = readFromJson(action, Phonebook.class);
         expected.setId(returned.getId());
 
         assertMatch(returned, expected);

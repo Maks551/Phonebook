@@ -1,6 +1,7 @@
 package com.example.phonebook.web.user;
 
 import com.example.phonebook.model.User;
+import com.example.phonebook.to.UserTo;
 import com.example.phonebook.web.AbstractControllerTest;
 import org.junit.jupiter.api.Test;
 import org.springframework.test.web.servlet.ResultActions;
@@ -9,6 +10,8 @@ import static com.example.phonebook.UserTestData.contentJson;
 import static com.example.phonebook.TestUtil.readFromJson;
 import static com.example.phonebook.TestUtil.userHttpBasic;
 import static com.example.phonebook.UserTestData.*;
+import static com.example.phonebook.util.UserUtil.createNewFromTo;
+import static com.example.phonebook.util.UserUtil.updateFromTo;
 import static com.example.phonebook.web.json.JsonUtil.writeValue;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -49,14 +52,16 @@ class ProfileRestControllerTest extends AbstractControllerTest {
 
     @Test
     void testUpdate() throws Exception {
-        User updated = new User(USER);
-        updated.setName("New User");
+        UserTo updatedTo = new UserTo(null, "newName", "newlogin", "newPassword");
+
         mockMvc.perform(put(REST_URL)
-                .with(userHttpBasic(USER))
                 .contentType(APPLICATION_JSON)
-                .content(writeValue(updated)))
-                .andExpect(status().isOk());
-        assertMatch(userService.get(USER_ID), updated);
+                .with(userHttpBasic(USER))
+                .content(writeValue(updatedTo)))
+                .andDo(print())
+                .andExpect(status().isNoContent());
+
+        assertMatch(userService.getByLogin("newlogin"), updateFromTo(new User(USER), updatedTo));
     }
 
     @Test
@@ -74,5 +79,22 @@ class ProfileRestControllerTest extends AbstractControllerTest {
 
         assertMatch(returned, expected);
         assertMatch(userService.getAll(), USER, USER_2, USER_3, ADMIN, expected);
+    }
+
+    @Test
+    void testRegister() throws Exception {
+        UserTo createdTo = new UserTo(null, "newName", "newlogin", "newPassword");
+
+        ResultActions action = mockMvc.perform(post(REST_URL + "/register").contentType(APPLICATION_JSON)
+                .content(writeValue(createdTo)))
+                .andDo(print())
+                .andExpect(status().isCreated());
+        User returned = readFromJson(action, User.class);
+
+        User created = createNewFromTo(createdTo);
+        created.setId(returned.getId());
+
+        assertMatch(returned, created);
+        assertMatch(userService.getByLogin("newlogin"), created);
     }
 }

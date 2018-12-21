@@ -1,6 +1,7 @@
 package com.example.phonebook.service;
 
 import com.example.phonebook.TimingExtension;
+import com.example.phonebook.repository.JpaUtil;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -16,6 +17,9 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 abstract class AbstractServiceTest {
     @Autowired
     protected CacheManager cacheManager;
+
+    @Autowired
+    protected JpaUtil jpaUtil;
 
     //  Check root cause in JUnit: https://github.com/junit-team/junit4/pull/778
     <T extends Throwable> void validateRootCause(Runnable runnable, Class<T> exceptionClass) {

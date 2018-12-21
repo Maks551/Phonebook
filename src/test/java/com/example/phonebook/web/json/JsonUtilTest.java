@@ -1,7 +1,7 @@
 package com.example.phonebook.web.json;
 
 import com.example.phonebook.UserTestData;
-import com.example.phonebook.model.PhonebookEntry;
+import com.example.phonebook.model.Phonebook;
 import com.example.phonebook.model.User;
 import org.junit.jupiter.api.Test;
 
@@ -20,7 +20,7 @@ class JsonUtilTest {
     void testReadWriteValue() throws Exception {
         String json = JsonUtil.writeValue(PHONEBOOK);
         System.out.println(json);
-        PhonebookEntry phonebook = JsonUtil.readValue(json, PhonebookEntry.class);
+        Phonebook phonebook = JsonUtil.readValue(json, Phonebook.class);
         assertMatch(phonebook, PHONEBOOK);
     }
 
@@ -28,7 +28,7 @@ class JsonUtilTest {
     void testReadWriteValues() throws Exception {
         String json = JsonUtil.writeValue(PHONEBOOK);
         System.out.println(json);
-        List<PhonebookEntry> phonebooks = JsonUtil.readValues(json, PhonebookEntry.class);
+        List<Phonebook> phonebooks = JsonUtil.readValues(json, Phonebook.class);
         assertMatch(phonebooks, PHONEBOOK);
     }
 

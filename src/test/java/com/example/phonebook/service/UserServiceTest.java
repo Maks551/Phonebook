@@ -2,10 +2,12 @@ package com.example.phonebook.service;
 
 import com.example.phonebook.model.Role;
 import com.example.phonebook.model.User;
+import com.example.phonebook.repository.JpaUtil;
 import com.example.phonebook.util.exception.NotFoundException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.CacheManager;
 import org.springframework.dao.DataAccessException;
 
 import javax.validation.ConstraintViolationException;
@@ -21,6 +23,7 @@ class UserServiceTest extends AbstractServiceTest {
     @BeforeEach
     void setUp() throws Exception {
         cacheManager.getCache("users").clear();
+        jpaUtil.clear2ndLevelHibernateCache();
     }
 
     @Test
