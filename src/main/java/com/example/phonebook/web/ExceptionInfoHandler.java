@@ -35,8 +35,8 @@ import static com.example.phonebook.util.exception.ErrorType.VALIDATION_ERROR;
 public class ExceptionInfoHandler {
     private static Logger log = LoggerFactory.getLogger(ExceptionInfoHandler.class);
 
-    static final String EXCEPTION_DUPLICATE_LOGIN = "exception.user.duplicateLogin";
-    private static final String EXCEPTION_DUPLICATE_PHONE_NUMBER = "exception.phonebook.duplicatePhoneNumber";
+    public static final String EXCEPTION_DUPLICATE_LOGIN = "exception.user.duplicateLogin";
+    public static final String EXCEPTION_DUPLICATE_PHONE_NUMBER = "exception.phonebook.duplicatePhoneNumber";
 
     private static final Map<String, String> CONSTRAINS_I18N_MAP = Collections.unmodifiableMap(
             new HashMap<String, String>() {

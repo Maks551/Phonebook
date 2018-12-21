@@ -1,14 +1,18 @@
 package com.example.phonebook.web.phonebook;
 
 import com.example.phonebook.model.Phonebook;
+import com.example.phonebook.util.exception.ErrorType;
 import com.example.phonebook.web.AbstractControllerTest;
 import org.junit.jupiter.api.Test;
 import org.springframework.test.web.servlet.ResultActions;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import static com.example.phonebook.PhonebookTestData.*;
 import static com.example.phonebook.TestUtil.*;
 import static com.example.phonebook.UserTestData.USER;
 import static com.example.phonebook.UserTestData.USER_ID;
+import static com.example.phonebook.web.ExceptionInfoHandler.EXCEPTION_DUPLICATE_PHONE_NUMBER;
 import static com.example.phonebook.web.json.JsonUtil.writeValue;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -27,6 +31,12 @@ class PhonebookRestControllerTest extends AbstractControllerTest {
                 .andDo(print())
                 .andExpect(content().contentTypeCompatibleWith(APPLICATION_JSON))
                 .andExpect(contentJson(PHONEBOOK));
+    }
+
+    @Test
+    void testGetUnAuth() throws Exception {
+        mockMvc.perform(get(REST_URL))
+                .andExpect(status().isUnauthorized());
     }
 
     @Test
@@ -73,5 +83,21 @@ class PhonebookRestControllerTest extends AbstractControllerTest {
                 .andDo(print())
                 .andExpect(content().contentTypeCompatibleWith(APPLICATION_JSON))
                 .andExpect(contentJson(PHONEBOOK_LIST));
+    }
+
+    @Test
+    @Transactional(propagation = Propagation.NEVER)
+    void testDuplicateMobilePhoneNumber() throws Exception {
+        Phonebook updated = new Phonebook(PHONEBOOK);
+        updated.setMobilePhoneNumber("+380339833233");
+
+        mockMvc.perform(put(REST_URL)
+                .with(userHttpBasic(USER))
+                .contentType(APPLICATION_JSON)
+                .content(writeValue(updated)))
+                .andExpect(status().isConflict())
+                .andExpect(errorType(ErrorType.VALIDATION_ERROR))
+                .andExpect(jsonMessage("$.details", EXCEPTION_DUPLICATE_PHONE_NUMBER))
+                .andDo(print());
     }
 }

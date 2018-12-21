@@ -13,6 +13,8 @@ import java.util.Locale;
 public class MessageUtil {
     private final MessageSource messageSource;
 
+    public static final Locale UK_LOCALE = new Locale("uk");
+
     @Autowired
     public MessageUtil(MessageSource messageSource) {
         this.messageSource = messageSource;
