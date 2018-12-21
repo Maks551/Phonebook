@@ -1,4 +1,4 @@
-package com.example.phonebook.web.json;
+package com.example.phonebook.config;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -8,7 +8,6 @@ import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.hibernate5.Hibernate5Module;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import org.springframework.context.annotation.Bean;
-import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 
 /**
  * <p>
@@ -19,13 +18,6 @@ import org.springframework.http.converter.json.MappingJackson2HttpMessageConvert
  * @link https://github.com/FasterXML/jackson-docs/wiki/JacksonHowToCustomSerializers
  */
 public class JacksonAutoConfiguration extends ObjectMapper {
-
-//    @Bean
-//    public MappingJackson2HttpMessageConverter mappingJackson2HttpMessageConverter() {
-//        MappingJackson2HttpMessageConverter jsonConverter = new MappingJackson2HttpMessageConverter();
-//        jsonConverter.setObjectMapper(getMapper());
-//        return jsonConverter;
-//    }
 
     private static final ObjectMapper MAPPER = new JacksonAutoConfiguration();
 
