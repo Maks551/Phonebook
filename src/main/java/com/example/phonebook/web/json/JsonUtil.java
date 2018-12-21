@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import static com.example.phonebook.web.json.JacksonAutoConfiguration.getMapper;
+import static com.example.phonebook.config.JacksonAutoConfiguration.getMapper;
 
 public class JsonUtil {
 

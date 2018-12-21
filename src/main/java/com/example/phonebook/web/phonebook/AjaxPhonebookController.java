@@ -1,32 +1,27 @@
 package com.example.phonebook.web.phonebook;
 
-import com.example.phonebook.model.PhonebookEntry;
+import com.example.phonebook.model.Phonebook;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import javax.validation.constraints.Pattern;
 import java.util.List;
-import java.util.StringJoiner;
-
-import static com.example.phonebook.util.ValidationUtil.MOBILE_PHONE_NUMBER_PATTERN;
 
 @RestController
 @RequestMapping(value = "/ajax/profile/phonebooks")
-public class AjaxPhonebookController extends AbstractPhonebookController{
+public class AjaxPhonebookController extends AbstractPhonebookController {
 
     @Override
-    @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public PhonebookEntry get(@PathVariable("id") int id) {
+    @GetMapping(value = "/{id}")
+    public Phonebook get(@PathVariable("id") int id) {
         return super.get(id);
     }
 
     @Override
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<PhonebookEntry> getAll() {
+    public List<Phonebook> getAll() {
         return super.getAll();
     }
 
@@ -39,20 +34,7 @@ public class AjaxPhonebookController extends AbstractPhonebookController{
 
     @PostMapping
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
-    public ResponseEntity<String> createOrUpdate(@Valid PhonebookEntry pbEntry, BindingResult result) {
-        if (result.hasErrors()){
-            StringJoiner joiner = new StringJoiner("<br>");
-            result.getFieldErrors().forEach(
-                    fe -> {
-                        String msg = fe.getDefaultMessage();
-                        if (msg.startsWith(fe.getField())){
-                            msg = fe.getField() + ' ' + msg;
-                        }
-                        joiner.add(msg);
-                    }
-            );
-            return new ResponseEntity<>(joiner.toString(), HttpStatus.UNPROCESSABLE_ENTITY);
-        }
+    public ResponseEntity<String> createOrUpdate(@Valid Phonebook pbEntry) {
         if (pbEntry.isNew()) {
             super.create(pbEntry);
         } else {
@@ -63,13 +45,11 @@ public class AjaxPhonebookController extends AbstractPhonebookController{
 
     @Override
     @GetMapping(value = "/filter", produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<PhonebookEntry> getFilter(
+    public List<Phonebook> getFilter(
             @RequestParam(value = "lastNameF", required = false) String lastName,
             @RequestParam(value = "firstNameF", required = false) String firstName,
-            @RequestParam(value = "mobilePhoneNumberF", required = false)
-            @Pattern(regexp = MOBILE_PHONE_NUMBER_PATTERN) String mobilePhoneNumber,
-            @RequestParam(value = "homePhoneNumberF", required = false)
-            @Pattern(regexp = MOBILE_PHONE_NUMBER_PATTERN) String homePhoneNumber) {
+            @RequestParam(value = "mobilePhoneNumberF", required = false) String mobilePhoneNumber,
+            @RequestParam(value = "homePhoneNumberF", required = false) String homePhoneNumber) {
         return super.getFilter(lastName, firstName, mobilePhoneNumber, homePhoneNumber);
     }
 }
