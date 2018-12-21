@@ -7,13 +7,14 @@ import com.example.phonebook.web.user.AbstractUserController;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.support.SessionStatus;
 
 import javax.validation.Valid;
+
+import static com.example.phonebook.web.ExceptionInfoHandler.EXCEPTION_DUPLICATE_LOGIN;
 
 @Controller
 public class RootController extends AbstractUserController {
@@ -35,17 +36,17 @@ public class RootController extends AbstractUserController {
     }
 
     @PostMapping("/profile")
-    public String updateProfile(@Valid UserTo userTo, BindingResult result, SessionStatus status) {
+    public String updateProfile(@Valid UserTo userTo, BindingResult result, SessionStatus status, @AuthenticationPrincipal AuthorizedUser authUser) {
         if (result.hasErrors()) {
             return "profile";
         }
         try {
-            super.update(userTo, SecurityUtil.authUserId());
-            SecurityUtil.get().update(userTo);
+            super.update(userTo, authUser.getId());
+            authUser.update(userTo);
             status.setComplete();
             return "redirect:phonebooks";
         } catch (DataIntegrityViolationException ex) {
-            result.rejectValue("login", "exception.user.duplicateLogin");
+            result.rejectValue("login", EXCEPTION_DUPLICATE_LOGIN);
             return "profile";
         }
     }
@@ -68,20 +69,14 @@ public class RootController extends AbstractUserController {
             status.setComplete();
             return "redirect:login?message=app.registered&username=" + userTo.getLogin();
         } catch (DataIntegrityViolationException ex) {
-            result.rejectValue("login", "exception.user.duplicateLogin");
+            result.rejectValue("login", EXCEPTION_DUPLICATE_LOGIN);
             model.addAttribute("register", true);
             return "profile";
         }
     }
 
     @GetMapping(value = "/phonebooks")
-    public String phonebooks(Model model) {
-        model.addAttribute("phonebooks", super.getAll());
-        return "phonebooks";
-    }
-
-    @GetMapping("/accessDenied")
-    public String accessDenied() {
-        return "accessDenied";
+    public String phonebooks(@AuthenticationPrincipal AuthorizedUser authUser) {
+        return authUser == null ? "redirect:login" : "phonebooks";
     }
 }
