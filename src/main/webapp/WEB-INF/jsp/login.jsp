@@ -21,9 +21,6 @@
             <button type="submit" class="btn btn-lg btn-primary" onclick="login('login1', 'password1')">
                 <spring:message code="app.login"/> User
             </button>
-            <button type="submit" class="btn btn-lg btn-primary" onclick="login('admin', 'admin')">
-                <spring:message code="app.login"/> Admin
-            </button>
         </p>
         <br/>
     </div>

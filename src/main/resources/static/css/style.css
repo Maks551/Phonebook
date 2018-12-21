@@ -1,17 +1,5 @@
-tr[data-mealExceed="false"] {
-    color: green;
-}
-
-tr[data-mealExceed="true"] {
-    color: red;
-}
-
 .fa {
     cursor: pointer;
-}
-
-tr[data-userEnabled="false"] {
-    opacity: 0.3;
 }
 
 .error, .message {

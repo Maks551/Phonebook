@@ -37,7 +37,7 @@ function deleteRow(id) {
         type: "DELETE"
     }).done(function () {
         updateTable();
-        successNoty("Deleted");
+        successNoty("common.deleted");
     });
 }
 
@@ -46,7 +46,7 @@ function updateTableByData(data) {
 }
 
 function save() {
-    savePhonebook();
+    prepareToSave();
     $.ajax({
         type: "POST",
         url: ajaxUrl,
@@ -54,7 +54,7 @@ function save() {
     }).done(function () {
         $("#editRow").modal("hide");
         updateTable();
-        successNoty("Saved");
+        successNoty("common.saved");
     });
 }
 
@@ -79,8 +79,9 @@ function successNoty(key) {
 
 function failNoty(jqXHR) {
     closeNoty();
+    const errorInfo = JSON.parse(jqXHR.responseText);
     failedNote = new Noty({
-        text: "<span class='fa fa-lg fa-exclamation-circle'></span> &nbsp;Error status: " + jqXHR.status,
+        text: "<span class='fa fa-lg fa-exclamation-circle'></span> &nbsp;" + i18n["common.errorStatus"] + ": " + jqXHR.status + "<br>" + errorInfo.type + "<br>" + errorInfo.details.join("<br>"),
         type: "error",
         layout: "bottomRight"
     }).show();

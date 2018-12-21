@@ -26,9 +26,9 @@ CREATE TABLE phone_book (
   first_name VARCHAR(100) NOT NULL,
   surname VARCHAR(100) NOT NULL,
   mobile_phone_number VARCHAR(50) NOT NULL,
-  home_phone_number VARCHAR(50),
-  address VARCHAR(100),
-  email VARCHAR(100),
+  home_phone_number VARCHAR(50) DEFAULT '',
+  address VARCHAR(100) DEFAULT '',
+  email VARCHAR(100) DEFAULT '',
   FOREIGN KEY phone_book_fk (user_id) REFERENCES users (id) ON DELETE CASCADE
 );
-CREATE UNIQUE INDEX phone_books_mobile_phone_number_idx ON phone_book (mobile_phone_number, user_id);
+CREATE UNIQUE INDEX phone_book_mobile_phone_number_idx ON phone_book (mobile_phone_number, user_id);

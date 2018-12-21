@@ -14,10 +14,10 @@ function clearFilter() {
     $.get(ajaxUrl, updateTableByData);
 }
 
-function savePhonebook() {
-    $("#homePhoneNumber").val() === "" ? $("#homePhoneNumber").val(null) : $("#homePhoneNumber").val();
-    $("#address").val() === "" ? $("#address").val(null) : $("#address").val();
-    $("#email").val() === "" ? $("#email").val(null) : $("#email").val();
+function prepareToSave() {
+    $("#homePhoneNumber").val().trim() === "" ? $("#homePhoneNumber").val('') : $("#homePhoneNumber").val();
+    $("#address").val().trim() === "" ? $("#address").val('') : $("#address").val();
+    $("#email").val().trim() === "" ? $("#email").val('') : $("#email").val();
 }
 
 $(function () {

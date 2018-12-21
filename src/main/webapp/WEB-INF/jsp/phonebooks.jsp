@@ -16,7 +16,7 @@
             <div class="card-body py-0 border">
                 <form id="filter" class="my-0">
                     <div class="row">
-                        <div class="offset-2 col-6">
+                        <div class="offset-2 col-5">
                             <div class="form-group">
                                 <label class="col-form-label" for="lastNameF"><spring:message
                                         code="phonebook.lastName"/></label>
@@ -27,7 +27,7 @@
                                 <input class="form-control col-6" type="text" name="firstNameF" id="firstNameF">
                             </div>
                         </div>
-                        <div class="col-4">
+                        <div class="col-5">
                             <div class="form-group">
                                 <label class="col-form-label" for="mobilePhoneNumberF"><spring:message
                                         code="phonebook.mobilePhoneNumber"/></label>
@@ -62,7 +62,7 @@
             <tr>
                 <th><spring:message code="phonebook.lastName"/></th>
                 <th><spring:message code="phonebook.firstName"/></th>
-                <th><spring:message code="phonebook.surename"/></th>
+                <th><spring:message code="phonebook.surname"/></th>
                 <th><spring:message code="phonebook.mobilePhoneNumber"/></th>
                 <th><spring:message code="phonebook.homePhoneNumber"/></th>
                 <th><spring:message code="phonebook.address"/></th>
@@ -89,37 +89,37 @@
                     <div class="form-group">
                         <label for="lastName" class="col-form-label"><spring:message code="phonebook.lastName"/></label>
                         <input type="text" class="form-control" id="lastName" name="lastName"
-                               placeholder="Enter your lastName">
+                               placeholder="<spring:message code="phonebook.lastName"/>">
                     </div>
                     <div class="form-group">
                         <label for="firstName" class="col-form-label"><spring:message code="phonebook.firstName"/></label>
                         <input type="text" class="form-control" id="firstName" name="firstName"
-                               placeholder="Enter your firstName">
+                               placeholder="<spring:message code="phonebook.firstName"/>">
                     </div>
                     <div class="form-group">
-                        <label for="surname" class="col-form-label"><spring:message code="phonebook.surename"/></label>
+                        <label for="surname" class="col-form-label"><spring:message code="phonebook.surname"/></label>
                         <input type="text" class="form-control" id="surname" name="surname"
-                               placeholder="Enter your surname">
+                               placeholder="<spring:message code="phonebook.surname"/>">
                     </div>
                     <div class="form-group">
                         <label for="mobilePhoneNumber" class="col-form-label"><spring:message code="phonebook.mobilePhoneNumber"/></label>
                         <input type="text" class="form-control" id="mobilePhoneNumber" name="mobilePhoneNumber"
-                               placeholder="Enter your mobilePhoneNumber">
+                               placeholder="<spring:message code="phonebook.mobilePhoneNumber"/>">
                     </div>
                     <div class="form-group">
                         <label for="homePhoneNumber" class="col-form-label"><spring:message code="phonebook.homePhoneNumber"/></label>
                         <input type="text" class="form-control" id="homePhoneNumber" name="homePhoneNumber"
-                               placeholder="Enter your homePhoneNumber">
+                               placeholder="<spring:message code="phonebook.homePhoneNumber"/>">
                     </div>
                     <div class="form-group">
                         <label for="address" class="col-form-label"><spring:message code="phonebook.address"/></label>
                         <input type="text" class="form-control" id="address" name="address"
-                               placeholder="Enter your address">
+                               placeholder="<spring:message code="phonebook.address"/>">
                     </div>
                     <div class="form-group">
                         <label for="email" class="col-form-label"><spring:message code="phonebook.email"/></label>
                         <input type="text" class="form-control" id="email" name="email"
-                               placeholder="Enter your email">
+                               placeholder="<spring:message code="phonebook.email"/>">
                     </div>
                 </form>
             </div>

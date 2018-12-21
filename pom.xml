@@ -21,7 +21,12 @@
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <start-class>com.example.phonebook.Application</start-class>
 
+        <!-- Hibernate -->
+        <hibernate.version>5.3.2.Final</hibernate.version>
+        <hibernate-validator.version>6.0.10.Final</hibernate-validator.version>
         <jsoup.version>1.11.3</jsoup.version>
+        <javax-el.version>3.0.1-b10</javax-el.version>
+
         <jackson-json.version>2.9.7</jackson-json.version>
         <spring.version>5.1.2.RELEASE</spring.version>
 
@@ -29,6 +34,8 @@
         <webjars-bootstrap.version>4.1.3</webjars-bootstrap.version>
         <webjars-datatables.version>1.10.19</webjars-datatables.version>
         <webjars-noty.version>3.1.4</webjars-noty.version>
+
+        <jaxb.version>2.3.0</jaxb.version>
     </properties>
 
     <dependencies>
@@ -109,6 +116,11 @@
             <scope>test</scope>
         </dependency>
         <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-devtools</artifactId>
+            <optional>true</optional>
+        </dependency>
+        <dependency>
             <groupId>org.springframework.security</groupId>
             <artifactId>spring-security-test</artifactId>
             <version>${spring.version}</version>
@@ -161,12 +173,10 @@
             <scope>runtime</scope>
             <version>3.5.2</version>
         </dependency>
-        <!--<dependency>-->
-            <!--<groupId>org.junit.jupiter</groupId>-->
-            <!--<artifactId>junit-jupiter-api</artifactId>-->
-            <!--<version>5.3.2</version>-->
-            <!--<scope>test</scope>-->
-        <!--</dependency>-->
+        <dependency>
+            <groupId>javax.cache</groupId>
+            <artifactId>cache-api</artifactId>
+        </dependency>
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-engine</artifactId>
@@ -194,10 +204,34 @@
 
         <!--ORM-->
         <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-core</artifactId>
+            <version>${hibernate.version}</version>
+        </dependency>
+        <dependency>
             <groupId>org.jsoup</groupId>
             <artifactId>jsoup</artifactId>
             <version>${jsoup.version}</version>
         </dependency>
+        <dependency>
+            <groupId>org.hibernate.validator</groupId>
+            <artifactId>hibernate-validator</artifactId>
+            <version>${hibernate-validator.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-jcache</artifactId>
+            <version>${hibernate.version}</version>
+        </dependency>
+
+        <!--http://hibernate.org/validator/documentation/getting-started/#unified-expression-language-el-->
+        <dependency>
+            <groupId>org.glassfish</groupId>
+            <artifactId>javax.el</artifactId>
+            <version>${javax-el.version}</version>
+            <scope>provided</scope>
+        </dependency>
+
 
         <!--JSON-->
         <dependency>
@@ -215,6 +249,34 @@
             <artifactId>jackson-datatype-jsr310</artifactId>
             <version>${jackson-json.version}</version>
         </dependency>
+
+        <!--For Java 9-->
+        <dependency>
+            <groupId>javax.annotation</groupId>
+            <artifactId>javax.annotation-api</artifactId>
+            <version>1.3.2</version>
+        </dependency>
+        <dependency>
+            <groupId>javax.xml.bind</groupId>
+            <artifactId>jaxb-api</artifactId>
+            <version>${jaxb.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.sun.xml.bind</groupId>
+            <artifactId>jaxb-core</artifactId>
+            <version>${jaxb.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.sun.xml.bind</groupId>
+            <artifactId>jaxb-impl</artifactId>
+            <version>${jaxb.version}</version>
+        </dependency>
+        <!--<dependency>-->
+            <!--<groupId>javax.xml.ws</groupId>-->
+            <!--<artifactId>jaxws-api</artifactId>-->
+            <!--<version>${jaxb.version}</version>-->
+            <!--&lt;!&ndash;<scope>test</scope>&ndash;&gt;-->
+        <!--</dependency>-->
     </dependencies>
 
     <build>

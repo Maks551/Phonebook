@@ -3,7 +3,6 @@
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <%@taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
-<header>
 <nav class="navbar navbar-expand-md navbar-dark bg-dark py-0">
     <div class="container">
         <a href="phonebooks" class="navbar-brand"><img src="images/icon-phonebook.png"> <spring:message code="app.title"/></a>
@@ -45,4 +44,6 @@
         </div>
     </div>
 </nav>
-</header>
+<script type="text/javascript">
+    const localeCode = "${pageContext.response.locale}";
+</script>
