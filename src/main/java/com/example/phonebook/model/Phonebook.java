@@ -20,30 +20,33 @@ import static com.example.phonebook.util.ValidationUtil.MOBILE_PHONE_NUMBER_PATT
 @Getter
 @NoArgsConstructor
 @Entity
-@Table(name = "phone_book", uniqueConstraints = {@UniqueConstraint(columnNames = {"mobile_phone_number", "user_id"}, name = "phone_books_mobile_phone_number_idx")})
-public class PhonebookEntry extends AbstractBaseEntity {
-    @NotBlank(message = "Last Name is mandatory")
+@Table(name = "phone_book", uniqueConstraints = {@UniqueConstraint(columnNames = {"mobile_phone_number", "user_id"}, name = "phone_book_mobile_phone_number_idx")})
+public class Phonebook extends AbstractBaseEntity {
+    @Column(name = "last_name")
+    @NotBlank
     @Size(min = 4)
     private String lastName;
 
-    @NotBlank(message = "First Name is mandatory")
+    @NotBlank
     @Size(min = 4)
     private String firstName;
 
-    @NotBlank(message = "Surname is mandatory")
+    @NotBlank
     @Size(min = 4)
     private String surname;
 
-    @Pattern(regexp = MOBILE_PHONE_NUMBER_PATTERN, message = "Not valid phone number")
-    @NotBlank(message = "Mobile Phone Number is mandatory")
+    @Pattern(regexp = MOBILE_PHONE_NUMBER_PATTERN)
+    @NotBlank
     @Column(name = "mobile_phone_number")
     private String mobilePhoneNumber;
 
-    @Pattern(regexp = HOME_PHONE_NUMBER_PATTERN, message = "Not valid phone number")
+//    @Column(name = "home_phone_number", columnDefinition = "varchar(255) default ''")
+//    @Column(name = "home_phone_number", columnDefinition = "varchar() default 1")
+    @Pattern(regexp = HOME_PHONE_NUMBER_PATTERN)
     private String homePhoneNumber;
     private String address;
 
-    @Email(message = "Email is invalid")
+    @Email
     private String email;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -52,14 +55,14 @@ public class PhonebookEntry extends AbstractBaseEntity {
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private User user;
 
-    public PhonebookEntry(PhonebookEntry pbEntry) {
+    public Phonebook(Phonebook pbEntry) {
         this(pbEntry.id, pbEntry.lastName, pbEntry.firstName,
                 pbEntry.surname, pbEntry.mobilePhoneNumber,
                 pbEntry.homePhoneNumber, pbEntry.address, pbEntry.email);
     }
 
-    public PhonebookEntry(Integer id, String lastName, String firstName, String surname, String mobilePhoneNumber,
-                          String homePhoneNumber, String address, String email) {
+    public Phonebook(Integer id, String lastName, String firstName, String surname, String mobilePhoneNumber,
+                     String homePhoneNumber, String address, String email) {
         super(id);
         this.lastName = lastName;
         this.firstName = firstName;
@@ -70,9 +73,13 @@ public class PhonebookEntry extends AbstractBaseEntity {
         this.email = email;
     }
 
+    public void setHomePhoneNumber(String homePhoneNumber) {
+        this.homePhoneNumber = homePhoneNumber == null ? "" : homePhoneNumber;
+    }
+
     @Override
     public String toString() {
-        return "PhonebookEntry{" +
+        return "Phonebook{" +
                 "id=" + id +
                 ", lastName='" + lastName + '\'' +
                 ", firstName='" + firstName + '\'' +

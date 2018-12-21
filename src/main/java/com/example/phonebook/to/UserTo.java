@@ -12,7 +12,7 @@ import static com.example.phonebook.util.ValidationUtil.LOGIN_PATTERN;
 
 public class UserTo implements Serializable, HasId {
 
-    public Integer id;
+    private Integer id;
 
     @NotBlank
     @Size(min = 3)

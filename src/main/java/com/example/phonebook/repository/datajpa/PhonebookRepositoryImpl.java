@@ -1,6 +1,6 @@
 package com.example.phonebook.repository.datajpa;
 
-import com.example.phonebook.model.PhonebookEntry;
+import com.example.phonebook.model.Phonebook;
 import com.example.phonebook.repository.PhonebookRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -21,7 +21,7 @@ public class PhonebookRepositoryImpl implements PhonebookRepository {
 
     @Override
     @Transactional
-    public PhonebookEntry save(PhonebookEntry pbEntry, int userId) {
+    public Phonebook save(Phonebook pbEntry, int userId) {
         if (!pbEntry.isNew() && get(pbEntry.getId(), userId) == null) {
             return null;
         }
@@ -35,14 +35,14 @@ public class PhonebookRepositoryImpl implements PhonebookRepository {
     }
 
     @Override
-    public PhonebookEntry get(int id, int userId) {
+    public Phonebook get(int id, int userId) {
         return phonebookRepo.findById(id)
                 .filter(pbEntry -> pbEntry.getUser().getId() == userId)
                 .orElse(null);
     }
 
     @Override
-    public List<PhonebookEntry> getAll(int userId) {
+    public List<Phonebook> getAll(int userId) {
         return phonebookRepo.getAll(userId);
     }
 }

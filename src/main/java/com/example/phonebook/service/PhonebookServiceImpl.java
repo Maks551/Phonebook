@@ -1,6 +1,6 @@
 package com.example.phonebook.service;
 
-import com.example.phonebook.model.PhonebookEntry;
+import com.example.phonebook.model.Phonebook;
 import com.example.phonebook.repository.PhonebookRepository;
 import com.example.phonebook.util.exception.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +23,7 @@ public class PhonebookServiceImpl implements PhonebookService {
     }
 
     @Override
-    public PhonebookEntry get(int id, int userId) {
+    public Phonebook get(int id, int userId) {
         return checkNotFoundWithId(phonebookRepo.get(id, userId), id);
     }
 
@@ -35,20 +35,20 @@ public class PhonebookServiceImpl implements PhonebookService {
 
     @CacheEvict(value = "phonebooks", key = "#userId")
     @Override
-    public PhonebookEntry create(PhonebookEntry pbEntry, int userId) {
-        Assert.notNull(pbEntry, "phonebookEntry must not be null");
+    public Phonebook create(Phonebook pbEntry, int userId) {
+        Assert.notNull(pbEntry, "Phonebook must not be null");
         return phonebookRepo.save(pbEntry, userId);
     }
 
     @CacheEvict(value = "phonebooks", key = "#userId")
     @Override
-    public void update(PhonebookEntry pbEntry, int userId) throws NotFoundException {
+    public void update(Phonebook pbEntry, int userId) throws NotFoundException {
         checkNotFoundWithId(phonebookRepo.save(pbEntry, userId), pbEntry.getId());
     }
 
     @Override
     @Cacheable("phonebooks")
-    public List<PhonebookEntry> getAll(int userId) {
+    public List<Phonebook> getAll(int userId) {
         return phonebookRepo.getAll(userId);
     }
 }

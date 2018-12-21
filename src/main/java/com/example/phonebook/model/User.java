@@ -19,28 +19,30 @@ import java.util.*;
 
 import static com.example.phonebook.util.ValidationUtil.LOGIN_PATTERN;
 
+@Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 @Setter
 @Getter
 @NoArgsConstructor
 @Entity
 @Table(name = "users", uniqueConstraints = {@UniqueConstraint(columnNames = "login", name = "users_unique_login_idx")})
 public class User extends AbstractBaseEntity implements UserDetails {
-    @NotBlank(message = "Login is mandatory")
-    @Pattern(regexp = LOGIN_PATTERN, message = "Invalid login!")
-    @Size(min = 3, message = "Login is mandatory")
-    @Column(name = "login", nullable = false)
+
+    @Column(name = "login", nullable = false, unique = true)
+    @NotBlank
+    @Pattern(regexp = LOGIN_PATTERN)
+    @Size(min = 3)
     private String login;
 
-    @NotBlank(message = "Password is mandatory")
+    @NotBlank
     @Size(min = 5)
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String password;
 
-    @NotBlank(message = "Name is mandatory")
+    @NotBlank
     @Size(min = 5)
     private String name;
 
-    @Column(name = "enabled", nullable = false, columnDefinition = "bool default true")
+    @Column(name = "enabled", nullable = false, columnDefinition = "bit default 1")
     private boolean enabled = true;
 
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
@@ -52,7 +54,7 @@ public class User extends AbstractBaseEntity implements UserDetails {
     private Set<Role> roles;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
-    private List<PhonebookEntry> phonebook;
+    private List<Phonebook> phonebook;
 
     public User(User user) {
         this(user.getId(), user.getLogin(), user.getPassword(), user.getName(), user.isEnabled(), user.getRoles());

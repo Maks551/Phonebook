@@ -35,13 +35,13 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         this.passwordEncoder = passwordEncoder;
     }
 
-    @Cacheable(value = "users", key = "#id")
+//    @Cacheable(value = "users", key = "#id")
     @Override
     public User get(int id) throws NotFoundException {
         return checkNotFoundWithId(repository.get(id), id);
     }
 
-    @Cacheable(value = "users", key = "#login")
+//    @Cacheable(value = "users", key = "#login")
     @Override
     public User getByLogin(String login) throws NotFoundException {
         Assert.notNull(login, "login must not be null");
@@ -85,16 +85,9 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     @Override
     public AuthorizedUser loadUserByUsername(String login) throws UsernameNotFoundException {
         User user = repository.getByLogin(login.trim().toLowerCase());
-//        System.out.println(user);
         if (user == null) {
             throw new UsernameNotFoundException("User " + login + " is not found");
         }
         return new AuthorizedUser(user);
-    }
-
-    @SuppressWarnings("deprecation")
-    @Bean
-    public static NoOpPasswordEncoder encoder() {
-        return (NoOpPasswordEncoder) NoOpPasswordEncoder.getInstance();
     }
 }
