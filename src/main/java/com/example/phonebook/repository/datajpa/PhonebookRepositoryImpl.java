@@ -3,11 +3,13 @@ package com.example.phonebook.repository.datajpa;
 import com.example.phonebook.model.Phonebook;
 import com.example.phonebook.repository.PhonebookRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
+@Profile("mysql")
 @Repository
 public class PhonebookRepositoryImpl implements PhonebookRepository {
     private final CrudPhoneBookRepository phonebookRepo;

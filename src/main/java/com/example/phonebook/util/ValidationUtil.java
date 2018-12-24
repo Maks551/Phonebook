@@ -4,7 +4,7 @@ import com.example.phonebook.HasId;
 import com.example.phonebook.util.exception.IllegalRequestDataException;
 import com.example.phonebook.util.exception.NotFoundException;
 
-public class ValidationUtil {
+public final class ValidationUtil {
     // Only English characters
     public static final String LOGIN_PATTERN = "([A-Za-z0-9]+)?";
     //+380(98)99-33-109     +3809899-33-109     809899-33-109   098-99-33-109

@@ -15,6 +15,7 @@ import static com.example.phonebook.util.ValidationUtil.checkNotFoundWithId;
 
 @Service
 public class PhonebookServiceImpl implements PhonebookService {
+    private final String PHONEBOOK_CACHE = "phonebooks";
     private final PhonebookRepository phonebookRepo;
 
     @Autowired
@@ -27,27 +28,27 @@ public class PhonebookServiceImpl implements PhonebookService {
         return checkNotFoundWithId(phonebookRepo.get(id, userId), id);
     }
 
-    @CacheEvict(value = "phonebooks", key = "#userId")
+    @CacheEvict(value = PHONEBOOK_CACHE, key = "#userId")
     @Override
     public void delete(int id, int userId) throws NotFoundException {
         checkNotFoundWithId(phonebookRepo.delete(id, userId), id);
     }
 
-    @CacheEvict(value = "phonebooks", key = "#userId")
+    @CacheEvict(value = PHONEBOOK_CACHE, key = "#userId")
     @Override
     public Phonebook create(Phonebook pbEntry, int userId) {
         Assert.notNull(pbEntry, "Phonebook must not be null");
         return phonebookRepo.save(pbEntry, userId);
     }
 
-    @CacheEvict(value = "phonebooks", key = "#userId")
+    @CacheEvict(value = PHONEBOOK_CACHE, key = "#userId")
     @Override
     public void update(Phonebook pbEntry, int userId) throws NotFoundException {
         checkNotFoundWithId(phonebookRepo.save(pbEntry, userId), pbEntry.getId());
     }
 
     @Override
-    @Cacheable("phonebooks")
+    @Cacheable(PHONEBOOK_CACHE)
     public List<Phonebook> getAll(int userId) {
         return phonebookRepo.getAll(userId);
     }

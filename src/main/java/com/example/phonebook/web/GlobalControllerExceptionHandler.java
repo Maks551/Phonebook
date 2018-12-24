@@ -21,17 +21,17 @@ public class GlobalControllerExceptionHandler {
     private MessageUtil messageUtil;
 
     @ExceptionHandler(NoHandlerFoundException.class)
-    public ModelAndView wrongRequest(HttpServletRequest req, NoHandlerFoundException e) throws Exception {
+    public ModelAndView wrongRequest(HttpServletRequest req, NoHandlerFoundException e) {
         return logAndGetExceptionView(req, e, false, ErrorType.WRONG_REQUEST, null);
     }
 
     @ExceptionHandler(ApplicationException.class)
-    public ModelAndView applicationErrorHandler(HttpServletRequest req, ApplicationException appEx) throws Exception {
+    public ModelAndView applicationErrorHandler(HttpServletRequest req, ApplicationException appEx) {
         return logAndGetExceptionView(req, appEx, true, appEx.getType(), messageUtil.getMessage(appEx));
     }
 
     @ExceptionHandler(Exception.class)
-    public ModelAndView defaultErrorHandler(HttpServletRequest req, Exception e) throws Exception {
+    public ModelAndView defaultErrorHandler(HttpServletRequest req, Exception e) {
         return logAndGetExceptionView(req, e, true, ErrorType.APP_ERROR, null);
     }
 

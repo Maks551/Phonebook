@@ -40,8 +40,6 @@ public class Phonebook extends AbstractBaseEntity {
     @Column(name = "mobile_phone_number")
     private String mobilePhoneNumber;
 
-//    @Column(name = "home_phone_number", columnDefinition = "varchar(255) default ''")
-//    @Column(name = "home_phone_number", columnDefinition = "varchar() default 1")
     @Pattern(regexp = HOME_PHONE_NUMBER_PATTERN)
     private String homePhoneNumber;
     private String address;
@@ -56,9 +54,9 @@ public class Phonebook extends AbstractBaseEntity {
     private User user;
 
     public Phonebook(Phonebook pbEntry) {
-        this(pbEntry.id, pbEntry.lastName, pbEntry.firstName,
-                pbEntry.surname, pbEntry.mobilePhoneNumber,
-                pbEntry.homePhoneNumber, pbEntry.address, pbEntry.email);
+        this(pbEntry.getId(), pbEntry.getLastName(), pbEntry.getFirstName(),
+                pbEntry.getSurname(), pbEntry.getMobilePhoneNumber(),
+                pbEntry.getHomePhoneNumber(), pbEntry.getAddress(), pbEntry.getEmail());
     }
 
     public Phonebook(Integer id, String lastName, String firstName, String surname, String mobilePhoneNumber,
@@ -80,7 +78,7 @@ public class Phonebook extends AbstractBaseEntity {
     @Override
     public String toString() {
         return "Phonebook{" +
-                "id=" + id +
+                "id=" + getId() +
                 ", lastName='" + lastName + '\'' +
                 ", firstName='" + firstName + '\'' +
                 ", surname='" + surname + '\'' +

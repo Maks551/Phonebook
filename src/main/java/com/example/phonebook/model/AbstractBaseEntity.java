@@ -18,7 +18,7 @@ public abstract class AbstractBaseEntity implements HasId {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    protected Integer id;
+    private Integer id;
 
     AbstractBaseEntity(Integer id) {
         this.id = id;

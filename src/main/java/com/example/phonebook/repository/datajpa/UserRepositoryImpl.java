@@ -3,10 +3,12 @@ package com.example.phonebook.repository.datajpa;
 import com.example.phonebook.model.User;
 import com.example.phonebook.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+@Profile("mysql")
 @Repository
 public class UserRepositoryImpl implements UserRepository {
     private final CrudUserRepository repository;

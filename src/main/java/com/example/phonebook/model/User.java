@@ -73,14 +73,14 @@ public class User extends AbstractBaseEntity implements UserDetails {
         setRoles(roles);
     }
 
-    public void setRoles(Collection<Role> roles) {
+    private void setRoles(Collection<Role> roles) {
         this.roles = CollectionUtils.isEmpty(roles) ? Collections.emptySet() : EnumSet.copyOf(roles);
     }
 
     @Override
     public String toString() {
         return "User{" +
-                "id=" + id +
+                "id=" + getId() +
                 ", login=" + login +
                 ", name=" + name +
                 ", enabled=" + enabled +

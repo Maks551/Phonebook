@@ -8,10 +8,8 @@ import com.example.phonebook.util.exception.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
-import org.springframework.context.annotation.Bean;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -26,6 +24,7 @@ import static com.example.phonebook.util.ValidationUtil.checkNotFoundWithId;
 
 @Service("userService")
 public class UserServiceImpl implements UserService, UserDetailsService {
+    private final String USERS_CACHE = "users";
     private final UserRepository repository;
     private final PasswordEncoder passwordEncoder;
 
@@ -35,26 +34,24 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         this.passwordEncoder = passwordEncoder;
     }
 
-//    @Cacheable(value = "users", key = "#id")
     @Override
     public User get(int id) throws NotFoundException {
         return checkNotFoundWithId(repository.get(id), id);
     }
 
-//    @Cacheable(value = "users", key = "#login")
     @Override
     public User getByLogin(String login) throws NotFoundException {
         Assert.notNull(login, "login must not be null");
         return checkNotFound(repository.getByLogin(login), "login=" + login);
     }
 
-    @CacheEvict(value = "users", allEntries = true)
+    @CacheEvict(value = USERS_CACHE, allEntries = true)
     @Override
     public void delete(int id) throws NotFoundException {
         checkNotFoundWithId(repository.delete(id), id);
     }
 
-    @CacheEvict(value = "users", allEntries = true)
+    @CacheEvict(value = USERS_CACHE, allEntries = true)
     @Override
     public void update(User user) {
         Assert.notNull(user, "user must not be null");
@@ -62,21 +59,21 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     }
 
     @Transactional
-    @CacheEvict(value = "users", allEntries = true)
+    @CacheEvict(value = USERS_CACHE, allEntries = true)
     @Override
     public void update(UserTo userTo) {
         User user = updateFromTo(get(userTo.getId()), userTo);
         repository.save(prepareToSave(user, passwordEncoder));
     }
 
-    @CacheEvict(value = "users", allEntries = true)
+    @CacheEvict(value = USERS_CACHE, allEntries = true)
     @Override
     public User create(User user) {
         Assert.notNull(user, "user must not be null");
         return repository.save(prepareToSave(user, passwordEncoder));
     }
 
-    @Cacheable("users")
+    @Cacheable(USERS_CACHE)
     @Override
     public List<User> getAll() {
         return repository.getAll();

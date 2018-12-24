@@ -16,7 +16,7 @@ import static com.example.phonebook.web.SecurityUtil.authUserId;
 public class AbstractUserController {
     private final Logger log = LoggerFactory.getLogger(getClass());
     @Autowired
-    protected UserService service;
+    private UserService service;
 
     protected User get() {
         int id = authUserId();
