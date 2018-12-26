@@ -1,6 +1,7 @@
 package com.example.phonebook.web;
 
 import com.example.phonebook.TimingExtension;
+import com.example.phonebook.repository.JpaUtil;
 import com.example.phonebook.service.PhonebookService;
 import com.example.phonebook.service.UserService;
 import com.example.phonebook.util.exception.ErrorType;
@@ -24,7 +25,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @SpringBootTest
 @Transactional
-@Sql(value = {"classpath:schema.sql", "classpath:data.sql"}, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
+//@Sql(value = {"classpath:schema.sql", "classpath:data.sql"}, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
 //@ExtendWith(TimingExtension.class)
 public abstract class AbstractControllerTest {
 
@@ -39,6 +40,9 @@ public abstract class AbstractControllerTest {
 
     @Autowired
     private CacheManager cacheManager;
+
+    @Autowired(required = false)
+    private JpaUtil jpaUtil;
 
     @Autowired
     protected PhonebookService phonebookService;
@@ -65,6 +69,9 @@ public abstract class AbstractControllerTest {
     void setUp() {
         cacheManager.getCache("users").clear();
         cacheManager.getCache("phonebooks").clear();
+        if (jpaUtil != null) {
+            jpaUtil.clear2ndLevelHibernateCache();
+        }
     }
 
     public ResultMatcher errorType(ErrorType type) {

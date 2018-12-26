@@ -18,7 +18,7 @@ abstract class AbstractServiceTest {
     @Autowired
     protected CacheManager cacheManager;
 
-    @Autowired
+    @Autowired(required = false)
     protected JpaUtil jpaUtil;
 
     //  Check root cause in JUnit: https://github.com/junit-team/junit4/pull/778
